@@ -96,6 +96,5 @@ ans = count_overlaps()
 print(ans) 
 
 #part1 1st try, 940539: too high ; 2nd try 8060: Correct!
-#376 376 985 990
 
 #part2 1st try, 21662: too high ; 2nd try 21577: Correct!!
