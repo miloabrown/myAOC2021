@@ -97,4 +97,4 @@ print(ans)
 
 #part1 1st try, 940539: too high ; 2nd try 8060: Correct!
 
-#part2 1st try, 21662: too high ; 2nd try 21577: Correct!!
+#part2 1st try, 21662: too high ; 2nd try 21577: Correct!

@@ -1,14 +1,14 @@
-lista = []
+data = []
 with open("inputs/input1.txt","r")as t:
     for r in t:
-        lista.append(int(r))
+        data.append(int(r))
 #
 #part1
 #
 sum = 0
-for i,j in enumerate(lista):
+for i,j in enumerate(data):
     try:
-        if j > lista[i-1]:
+        if j > data[i-1]:
             sum+=1
     except IndexError:
         continue
@@ -16,10 +16,10 @@ for i,j in enumerate(lista):
 #part2
 #
 sum=0
-for i,j in enumerate(lista):
+for i,j in enumerate(data):
     try:
-        a = lista[i]+lista[i+1]+lista[i+2]
-        b = lista[i+1]+lista[i+2]+lista[i+3]
+        a = data[i]
+        b = data[i+3]
     except IndexError:
         a = b = 0
     if a < b:

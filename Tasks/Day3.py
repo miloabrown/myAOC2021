@@ -3,7 +3,6 @@ with open("inputs/input3.txt","r")as t:
     for r in t:
         bin_list.append(r.strip("\n"))
         
-#--------------------------------------#
 #PART1
 
 #Binary to decimal converter bin:str -> ans:int
