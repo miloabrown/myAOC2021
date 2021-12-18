@@ -1,49 +1,39 @@
+import collections
+import copy
 data = []
-with open("inputs/input6.txt","r")as f:
+with open("inputs/testinput6.txt","r")as f:
     for row in f:
         for value in row.strip().split(","):
             data.append(int(value))
-#We need to go through our input data 
-#and decrease each value by 1
-#If value == 0, it changes to a 6 and we add a new item
-#to the list with a value of 8
-#This goes on for 80 days so we need to do it 80 times.
-# days1 = 79
 
-#PART1
+#Part1 answer was 351188
 
-# def part1(data):
-#     global days1
-#     temp_data = data.copy()
-#     new_data = list(map(lambda x: x+6 if x==0 else x-1, data))
-#     for fish in temp_data:
-#         if fish == 0:
-#             new_data.append(8)
-#     if days1 > 0:
-#         days1-=1
-#         return(part1(new_data))
-#     else:
-#         return new_data
-# ans = part1(data)       
-# print(len(ans),"Part1 done!")
+fish = collections.Counter(data)
+def fishfarm(days):
+    global fish
+    for day in range(days):
+        new_dict = {}
+        new_fish = fish[0] if 0 in fish.keys() else 0
+        six = fish[6] if 6 in fish.keys() else False
+        for key in fish:
+            if key == 0:
+                new_dict[6] = (new_fish + fish[7]) if 7 in fish.keys() else new_fish
+                new_dict[8] = new_fish
+            elif key == 7:
+                new_dict[6] = new_fish + fish[7]   
+            elif key == 6:
+                new_dict[5] = six
+            else:
+                new_dict[key-1] = fish[key]
+        fish = new_dict
+    sum = 0
+    for key in fish:
+        sum+=fish[key]
+    print(sum)
+                
+fishfarm(80)
+fishfarm(256)
 
-#Answer was 351188
-
-
-#PART2:
-
-#Our code, at the moment, is too slow to determine an answer for part2 in tolerable time so we need to tweak it.
-#The recursive method in part1 is probably the most time consuming so let's try a different approach.
-
-def part2():
-    global data
-    sum=0
-    for day in range(80):
-        new_fish = data.count(0)
-        data = list(map(lambda x: x+6 if x==0 else x-1, data))
-        data.extend([8]*new_fish)
-        sum+=new_fish
-        print(new_fish/80)
-    return data
-print(len(part2()),"Part2 done!")
-
+#Output:
+#5934: is correct 
+#28671831483421 is WAY too high!
