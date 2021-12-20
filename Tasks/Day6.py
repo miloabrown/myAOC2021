@@ -10,10 +10,9 @@ def fishfarm(days):
     fish = collections.deque()
     for f in range(9):
         fish.append(data.count(f))
-    for day in range(days):
-        new_fish = fish.copy()[0]
+    for _ in range(days):
         fish.rotate(-1)
-        fish[6] += new_fish
+        fish[6] += fish[8]
     return(sum(fish))  
                 
 print(f"Part1: {fishfarm(80)}")
