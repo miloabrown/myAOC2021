@@ -25,5 +25,6 @@ def part2():
     print("part2:",x*y)
 
 if __name__ == "__main__":
+    print("Day2: ")
     part1() #Sampleinput answer: 150
     part2() #Sampleinput answer: 900

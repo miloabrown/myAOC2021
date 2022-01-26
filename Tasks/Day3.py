@@ -33,5 +33,6 @@ def part2(): #sample input answer 230
     print("Part2:",int(oxygen(data,0),2)*int(co(data,0),2))
 
 if __name__ == "__main__":
+    print("Day3: ")
     part1()
     part2()
