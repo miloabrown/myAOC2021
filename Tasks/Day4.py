@@ -1,77 +1,56 @@
-file = []
-boards = []
-with open("inputs\input4.txt","r") as t:
-    for r in t:
-        file.append(r.strip("\n"))
-#Remove whitespace from our "file"-list
-file = [x for x in file if x]
+from itertools import chain
 
-#numberdraw has the drawn numbers in draw order as a list
-numberdraw = file[0].split(",")
-
-
-#Function to iterate through list in chunks of 5 to get our boards
-def chunker(seq, size):
-    return (seq[pos:pos + size] for pos in range(0, len(seq), size))
-for board in chunker(file[1:],5):
-    boards.append(board)
-for board in boards:
-    for index,row in enumerate(board):
-        board[index] = row.split()
-    
-# Now we have our bingo number draw as a list and our boards/answer sheets in another list 
-
-# Next we need something to check our boards for numbers 
-# also we need to know the location of each number to check for 
-# finished rows and columns
-# And some method of marking "hits"
+with open("inputs\sampleinput4.txt", "r") as f:
+    drawpile = f.readline().strip().split(",")
+    data = f.read().split()
+    boards = [
+        [board[index : index + 5] for index in range(0, len(board), 5)]
+        for board in [data[x : x + 25] for x in range(0, len(data), 25)]
+    ]
 
 
-#mark_board "marks" given board if the correct number is found. (Replaces with "*")
-def mark_board(number,board):
+def mark_board(number, board):
     for row in board:
-        for index,c in enumerate(row):
-            if c == number and not check_board(board):
-                row[index] = "*"
+        for index, c in enumerate(row):
+            row[index] = "*" if (c == number and not check_board(board)) else row[index]
 
-#check_board checks given board for rows or columns of five. Returns True or False
+
 def check_board(board):
-    
     def check_row(row):
-        if row.count("*") == 5:
-            return True
+        return row.count("*") == 5
+
     def check_col(index):
-        column = []
-        for row in board:
-            column.append(row[index])
-        return check_row(column)
-    for index,row in enumerate(board):
+        return check_row([row[index] for row in board])
+
+    for index, row in enumerate(board):
         if check_row(row) or check_col(index):
             return True
-        else:
-            return False
+
+
 def count_sum(board):
-    sum = 0
-    for row in board:
-        for c in row:
-            if c.isnumeric():
-                sum+=int(c)
-    return sum
+    return sum(
+        map(
+            lambda x: int(x),
+            filter(lambda x: x.isnumeric(), chain.from_iterable(board)),
+        )
+    )
 
 
-def run():
-    last_num = 0
-    latest = []
-    for number in numberdraw:
-        for board in boards:
-            mark_board(number,board)
-            if check_board(board):
-                latest = board
-                last_num = number
-                # return(int(number)*count_sum(board))
-    print(latest,"\n",last_num,"\n",boards.index(latest))
-    return(int(number)*count_sum(latest))
-                
-            
-print(run())
-print("done")
+def main():
+    won = []
+    for number in drawpile:
+        for index, board in enumerate(boards):
+            if index not in won:
+                mark_board(number, board)
+            if check_board(board) and index not in won:
+                won.append(index)
+                print(
+                    f"Number: {number}\nBoard: {board}\nAnswer:{int(number) * count_sum(board)}"
+                )
+
+
+if __name__ == "__main__":
+    main()
+
+# Part1 sample input answer: 188 * 24 = 4512
+# Part2 sample input answer: 148 * 13 = 1924

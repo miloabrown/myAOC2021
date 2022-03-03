@@ -1,7 +1,7 @@
 import time
 dots = []
 commands = []
-with open("inputs/input13.txt","r")as f:
+with open("inputs/sampleinput13.txt","r")as f:
     for row in f:
         if row[0].isnumeric():
             dots.append((int(row.strip().split(",")[0]),int(row.strip().split(",")[1])))
