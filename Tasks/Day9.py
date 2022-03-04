@@ -1,6 +1,6 @@
 from numpy import prod
 
-with open("inputs/input9.txt", "r") as f:
+with open("inputs/sampleinput9.txt", "r") as f:
     data = list(map(lambda x: x.strip(), f.readlines()))
 
 
